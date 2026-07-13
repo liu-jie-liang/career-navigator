@@ -4,6 +4,22 @@
 
 你技术路线对了，但简历被 HR 30 秒关键词扫描淘汰，一切归零。career-navigator 补上这最后一公里。
 
+## 调用链中的位置
+
+```
+career-advisor              career-navigator
+    │                            │
+    ├─ 诊断职业方向               ├─ 继承 career-advisor 的技术路线
+    ├─ 市场数据验证               ├─ 叠加 HR 筛选 + 背调 + 面试
+    ├─ 输出技术路线               ├─ 输出简历方案 + 话术 + 背调清单
+    │                            │
+    ▼                            ▼
+  确定学什么                   怎么过 HR 这一关
+```
+
+- **上游依赖**：`career-advisor`（建议先用 career-advisor 确定技术方向）
+- **依赖 skill**：`web-verify`（搜索规则、信源过滤、对抗验证）
+
 ## 它解决什么问题
 
 career-advisor 告诉你"学什么"，career-navigator 告诉你"怎么过 HR 这一关"。它知道真实招聘链条的每个环节：
