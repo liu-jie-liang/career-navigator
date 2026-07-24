@@ -1,53 +1,58 @@
-# career-navigator — 职业导航顾问
+# job-hunt-coach — 求职教练
 
-**在 career-advisor 的技术路线规划基础上，叠加真实招聘全链条——HR 筛选、背调、面试两关、薪资谈判。**
+**从 HR 和用人负责人的筛选视角出发，帮候选人成为"对方愿意面试和雇佣"的人。**
 
-你技术路线对了，但简历被 HR 30 秒关键词扫描淘汰，一切归零。career-navigator 补上这最后一公里。
+定位为 `career-advisor` → `study-planner` → `learning-coach` 链条的最终下游。用户已经学完、有代码产出，缺的是求职落地。
 
 ## 调用链中的位置
 
 ```
-career-advisor              career-navigator
-    │                            │
-    ├─ 诊断职业方向               ├─ 继承 career-advisor 的技术路线
-    ├─ 市场数据验证               ├─ 叠加 HR 筛选 + 背调 + 面试
-    ├─ 输出技术路线               ├─ 输出简历方案 + 话术 + 背调清单
-    │                            │
-    ▼                            ▼
-  确定学什么                   怎么过 HR 这一关
+career-advisor  →  study-planner  →  learning-coach  →  job-hunt-coach
+     │                  │                  │                  │
+     ├─ 诊断职业方向      ├─ 设计学习路径      ├─ 执行教学          ├─ 求职落地
+     ├─ 市场数据验证      ├─ 产出计划文档      ├─ 项目代码          ├─ 简历 + 面试 + 谈薪
+     └─ 技术路线          └─ CONTEXT+PROFILE   └─ PROGRESS.md      └─ 背调 + offer 对比
 ```
 
-- **上游依赖**：`career-advisor`（建议先用 career-advisor 确定技术方向）
-- **依赖 skill**：`web-verify`（搜索规则、信源过滤、对抗验证）
+- **上游依赖**：必须先完成 learning-coach 的学习阶段（有项目代码和 PROGRESS.md）
+- **入口文件**：`config/CAREER-PROFILE.md`（career-advisor 产出） + `config/PROGRESS.md`（learning-coach 产出）
 
 ## 它解决什么问题
 
-career-advisor 告诉你"学什么"，career-navigator 告诉你"怎么过 HR 这一关"。它知道真实招聘链条的每个环节：
+career-advisor 告诉你"学什么"，job-hunt-coach 告诉你"怎么把自己卖出去"——从负责人的视角：
 
 - **HR 用关键词 30 秒筛一份简历**，不看你的 GitHub
-- **背调公司在学信网查学历**，不是查你代码写得好不好
-- **技术面和 HR 面是完全不同的两关**
-- **薪资谈判谁先出价谁被动**
+- **内推不是可选项，是主渠道**
+- **薪酬谈判谁先出价谁被动**
+- **背调是双向的——不只公司查你，你也该查公司**
+- **面试后不复盘的候选人，同样的问题下次还会卡**
 
-诊断维度从 career-advisor 的 6 维扩展到 7 维，额外覆盖：离职原因真实性、社保连续性、劳动仲裁记录、背调联系人。
-
-方案输出增加：简历过关方案（JD 关键词提取 + STAR 法则 + 空窗期包装）、HR 面话术、背调准备清单。
+全流程 14 步：搜 → 断 → 简历 → 内推 → 自我介绍 → 投递追踪 → 技术面 → HR 面 → 面试复盘 → 薪酬谈判 → offer 对比 → 反向背调 → 背调准备 → 存档。
 
 ## 安装
 
 ```bash
-mkdir -p ~/.trae/skills/career-navigator
-cp SKILL.md ~/.trae/skills/career-navigator/
+mkdir -p ~/.trae/skills/job-hunt-coach
+cp SKILL.md ~/.trae/skills/job-hunt-coach/
 ```
 
 ## 使用
 
 ```
-Use Skill: career-navigator
+Use Skill: job-hunt-coach
 ```
 
-建议先跑 career-advisor 确定技术方向，再用 career-navigator 解决求职落地。
+## 声明边界
+
+| 做 | 不做 |
+|----|------|
+| 从负责人视角出发的求职策略 | 模拟面试（AI 做不到） |
+| 简历逐行审查 + 包装话术 | 实时岗位列表（教用户自己搜） |
+| 内推策略 + 勾搭话术 | 诊断学习方向（找 career-advisor） |
+| 面试后复盘 + 弱点追踪 | 设计学习路径（找 study-planner） |
+| 薪酬谈判策略 + offer 对比 | 保证 offer 结果 |
+| 反向背调 + 背调准备 | |
 
 ## 已验证
 
-与 career-advisor 同案例贯穿测试：Java 35 岁空窗 1 年广州 → 技术路径确定后 → HR 通关评估（简历关风险、背调风险、学历硬伤、空窗期话术）→ 简历包装方案 + 投递优先级 → 完整闭环通过。
+基于 career-advisor 案例贯穿测试：Java 35 岁空窗 1 年广州 → 完成 learning-coach 学习阶段 → 档案刷新 → 简历包装 + 内推策略 + 跟踪表 + HR 面话术 + 薪酬谈判框架 → 完整求职闭环通过。
